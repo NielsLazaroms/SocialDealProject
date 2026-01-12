@@ -1,0 +1,27 @@
+export type DealCardDTO = {
+  id: number;
+  categoryId: number;
+  business: string;
+  location: string;
+  title: string;
+  ratingNumber?: number;
+  ratingAmount?: number;
+  duration: number;
+  amountSold: number;
+  favourite: boolean;
+  priceAmount: number;
+  priceColor: string;
+  priceSize: string;
+  availability?: WeekdayKey[];
+  oldPriceAmount: number;
+  oldPriceStrikethrough: boolean;
+  oldPriceColor: string;
+  touristTaxText?: string;
+  touristTaxColor?: string;
+  image: string;
+  discount: number;
+  tag?: string;
+  tagColor?: string;
+  lat: number;
+  lng: number;
+};

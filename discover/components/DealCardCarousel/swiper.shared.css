@@ -1,0 +1,74 @@
+:deep(.swiper-wrapper) {
+  padding-bottom: 4px;
+}
+
+:deep(.swiper.swiper-initialized.swiper-horizontal.swiper-android.swiper-backface-hidden) {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+:deep(.swiper-button-prev),
+:deep(.swiper-button-next) {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background-color: var(--color-brand-600);
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+:deep(.swiper-button-prev .swiper-navigation-icon),
+:deep(.swiper-button-next .swiper-navigation-icon) {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
+@media (min-width: 1024px) {
+  :deep(.swiper-button-prev),
+  :deep(.swiper-button-next) {
+    display: flex;
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 180ms ease,
+      transform 220ms ease;
+    pointer-events: none;
+  }
+
+  :deep(.swiper.swiper-initialized .swiper-button-prev),
+  :deep(.swiper.swiper-initialized .swiper-button-next) {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+:deep(.swiper-button-prev:hover),
+:deep(.swiper-button-next:hover) {
+  background-color: var(--color-brand-700);
+  cursor: pointer;
+}
+
+:deep(.swiper-button-disabled) {
+  display: none;
+  pointer-events: none;
+}
+
+:deep(.swiper-pagination) {
+  position: relative;
+  margin-top: 1rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease;
+}
+
+:deep(.swiper.swiper-initialized .swiper-pagination) {
+  opacity: 1;
+  transform: translateY(0);
+}
