@@ -48,15 +48,6 @@ const { data: cityList } = await useFetch<CityItem[]>('/discover/cities', {
   default: () => [],
 });
 
-const defaultLocation = computed(() => cityList.value[0]?.city);
-
-const { instances, models, applyTo, syncUrl, clearAll, clear } = useDealsFilters({
-  location: defaultLocation,
-});
-
-const activeInstances = computed(() => instances.filter((i) => i?.getLabel?.()));
-const hasActive = computed(() => activeInstances.value.length > 0);
-
 const categoriesById = computed<Record<number, CategoryProps>>(() =>
   Object.fromEntries((categoryData.value ?? []).map((c) => [c.id, c])),
 );
@@ -65,6 +56,15 @@ const { data: apiDeals } = await useFetch(dealEndpoint, {
   default: () => [],
   transform: (response) => response.map((d) => dealMapper(d, categoriesById.value)),
 });
+
+const defaultLocation = computed(() => cityList.value[0]?.city);
+
+const { instances, models, applyTo, syncUrl, clearAll, clear } = useDealsFilters({
+  location: defaultLocation,
+});
+
+const activeInstances = computed(() => instances.filter((i) => i?.getLabel?.()));
+const hasActive = computed(() => activeInstances.value.length > 0);
 
 const filteredDeals = applyTo(apiDeals);
 
@@ -266,7 +266,7 @@ const { isFavorite, toggle } = useFavorites();
         v-for="deal in sortedDeals"
         :key="`deal-${deal.id}`"
         v-bind="deal"
-        :favorite-deal="{ favourite: isFavorite(deal.id) }"
+        :favorite="isFavorite(deal.id)"
         @toggle-favorite="toggle(deal.id)"
         as="li"
       />

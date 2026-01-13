@@ -10,7 +10,7 @@ export interface UseDealSortDropdownReturn {
   /**
    * Currently selected sort option (value + label).
    */
-  selectedSort: Readonly<Ref<SortDropdownOption>>;
+  selectedSort: Ref<SortDropdownOption>;
 
   /**
    * Updates the selected sort based on dropdown selection.
@@ -56,7 +56,7 @@ export function useDealSortDropdown(deals: Readonly<Ref<CardProps[]>>): UseDealS
 
   return {
     sortOptions: readonly(sortOptions),
-    selectedSort: readonly(selectedSort),
+    selectedSort,
     onSortSelect,
     sortedDeals,
   };
