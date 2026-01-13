@@ -25,15 +25,8 @@ const emit = defineEmits<DealListEmits>();
         v-for="deal in props.deals"
         :key="deal.id"
       >
-        <slot
-          name="card"
-          :deal="deal"
-          :toggle-favorite="() => emit('toggle-favorite', deal.id)"
-        >
-          <DealCardDefault
-            v-bind="deal"
-            @toggle-favorite="emit('toggle-favorite', deal.id)"
-          />
+        <slot :deal="deal">
+          <DealCardDefault v-bind="deal" />
         </slot>
       </li>
     </TransitionGroup>

@@ -81,6 +81,12 @@ const newTodayList = computed(() => newToday.data.value?.deals ?? []);
 
 const filteredAllDeals = applyTo(dealList);
 const filteredNewTodayDeals = applyTo(newTodayList);
+const filteredPopularDeals = applyTo(popularDealList);
+
+const popularDealsWithFav = computed(() => withFavourite(filteredPopularDeals.value, isFavorite));
+const newTodayDealsWithFav = computed(() => withFavourite(filteredNewTodayDeals.value, isFavorite));
+const allDealsWithFav = computed(() => withFavourite(filteredAllDeals.value, isFavorite));
+const favoriteDealsWithFav = computed(() => withFavourite(favoriteDealList.value, isFavorite));
 
 const availableCount = computed(
   () => filteredAllDeals.value.length + filteredNewTodayDeals.value.length,
@@ -220,14 +226,9 @@ function onLoadMore() {
   maxVisibleDeals.value += loadMoreDealsStep;
 }
 
-const visibleDeals = computed(() =>
-  filteredAllDeals.value.slice(0, maxVisibleDeals.value).map((deal) => ({
-    ...deal,
-    favourite: isFavorite(deal.id),
-  })),
-);
+const visibleDeals = computed(() => allDealsWithFav.value.slice(0, maxVisibleDeals.value));
 
-const canLoadMore = computed(() => filteredAllDeals.value.length > visibleDeals.value.length);
+const canLoadMore = computed(() => allDealsWithFav.value.length > visibleDeals.value.length);
 
 const dealsNearbyProps = computed(() => ({
   deals: visibleDeals.value,
@@ -245,13 +246,6 @@ const { start } = useInfiniteSentinel(infiniteSentinelEl, () => {
   onLoadMore();
   if (canLoadMore.value) start();
 });
-
-const route = useRoute();
-
-const selectCategoryFilterQuery = computed(() => ({
-  ...asQueryObject(),
-  search: route.query.search,
-}));
 </script>
 
 <template>
@@ -269,44 +263,55 @@ const selectCategoryFilterQuery = computed(() => ({
     <DealCardCarouselFocus
       :title="title.CarouselTitle"
       :show-arrows="true"
-      :deals="popularDealList"
+      :deals="popularDealsWithFav"
     >
       <template #default="{ deal }">
-        <DealCardRestaurant v-bind="deal" />
+        <DealCardRestaurant
+          v-bind="deal"
+          @toggle-favorite="toggle(deal.id)"
+        />
       </template>
     </DealCardCarouselFocus>
 
     <DealCardCarouselDefault
       :title="title.HorizontalRowNewDealsTitle"
       :show-arrows="true"
-      :deals="filteredNewTodayDeals"
+      :deals="newTodayDealsWithFav"
       @view-all="goToFilterPage"
     >
       <template #default="{ deal }">
-        <DealCardRestaurant v-bind="deal" />
+        <DealCardRestaurant
+          v-bind="deal"
+          @toggle-favorite="toggle(deal.id)"
+        />
       </template>
     </DealCardCarouselDefault>
 
     <SelectCategory
       :title="title.CategorySectionTitle"
       :tiles="hexagonTiles"
-      :dealList="filteredAllDeals"
-      :filterQuery="selectCategoryFilterQuery"
+      :dealList="allDealsWithFav"
       @view-all="goToFilterPage"
     >
       <template #default="{ deal }">
-        <DealCardRestaurant v-bind="deal" />
+        <DealCardRestaurant
+          v-bind="deal"
+          @toggle-favorite="toggle(deal.id)"
+        />
       </template>
     </SelectCategory>
 
     <DealCardCarouselDefault
       :title="title.LastSeenTitle"
       :show-arrows="true"
-      :deals="filteredAllDeals"
+      :deals="allDealsWithFav"
       @view-all="goToFilterPage"
     >
       <template #default="{ deal }">
-        <DealCardRestaurant v-bind="deal" />
+        <DealCardRestaurant
+          v-bind="deal"
+          @toggle-favorite="toggle(deal.id)"
+        />
       </template>
     </DealCardCarouselDefault>
 
@@ -318,11 +323,14 @@ const selectCategoryFilterQuery = computed(() => ({
     <DealCardCarouselDefault
       :title="title.CadeauTipsTitle"
       :show-arrows="true"
-      :deals="filteredAllDeals"
+      :deals="allDealsWithFav"
       @view-all="goToFilterPage"
     >
       <template #default="{ deal }">
-        <DealCardRestaurant v-bind="deal" />
+        <DealCardRestaurant
+          v-bind="deal"
+          @toggle-favorite="toggle(deal.id)"
+        />
       </template>
     </DealCardCarouselDefault>
 
@@ -331,10 +339,10 @@ const selectCategoryFilterQuery = computed(() => ({
       v-bind="dealsNearbyProps"
       @load-more="onLoadMore"
     >
-      <template #card="{ deal, toggleFavorite }">
+      <template #default="{ deal }">
         <DealCardRestaurant
           v-bind="deal"
-          @toggle-favorite="toggleFavorite"
+          @toggle-favorite="toggle(deal.id)"
         />
       </template>
     </DealListSection>
@@ -349,11 +357,14 @@ const selectCategoryFilterQuery = computed(() => ({
     <DealCardCarouselDefault
       :title="title.FavoritesList"
       :show-arrows="true"
-      :deals="favoriteDealList"
+      :deals="favoriteDealsWithFav"
       @view-all="goToFilterPage"
     >
       <template #default="{ deal }">
-        <DealCardRestaurant v-bind="deal" />
+        <DealCardRestaurant
+          v-bind="deal"
+          @toggle-favorite="toggle(deal.id)"
+        />
       </template>
     </DealCardCarouselDefault>
 
@@ -361,10 +372,10 @@ const selectCategoryFilterQuery = computed(() => ({
       v-bind="moreDealsNearbyProps"
       :title="moreNearbyTitle"
     >
-      <template #card="{ deal, toggleFavorite }">
+      <template #default="{ deal }">
         <DealCardDefault
           v-bind="deal"
-          @toggle-favorite="toggleFavorite"
+          @toggle-favorite="toggle(deal.id)"
         />
       </template>
     </DealListSection>

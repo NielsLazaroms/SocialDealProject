@@ -40,9 +40,7 @@ const hasDeals = computed(() => props.deals.length > 0);
           :key="deal.id"
         >
           <div class="slide-inner">
-            <slot :deal="deal">
-              <DealCardDefault v-bind="deal"></DealCardDefault>
-            </slot>
+            <slot :deal="deal"> </slot>
           </div>
         </SwiperSlide>
       </Swiper>

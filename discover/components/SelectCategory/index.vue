@@ -74,12 +74,7 @@ const hasDealsForSelection = computed(() => filteredDeals.value.length > 0);
           v-for="deal in filteredDeals"
           :key="deal.id"
         >
-          <slot
-            name="card"
-            :deal="deal"
-          >
-            <DealCardDefault v-bind="deal" />
-          </slot>
+          <slot :deal="deal"> </slot>
         </li>
       </ul>
       <div
