@@ -26,6 +26,7 @@ export const titles = {
   HorizontalRowNewDealsTitle: {
     text: 'Nieuwe deals bij jou in de buurt',
     position: 'left',
+    moreDealsTextButton: 'Bekijk alles',
     size: 'small',
   },
   LastSeenTitle: {

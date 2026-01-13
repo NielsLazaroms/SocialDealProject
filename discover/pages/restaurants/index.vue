@@ -280,6 +280,7 @@ const selectCategoryFilterQuery = computed(() => ({
       :title="title.HorizontalRowNewDealsTitle"
       :show-arrows="true"
       :deals="filteredNewTodayDeals"
+      @view-all="goToFilterPage"
     >
       <template #default="{ deal }">
         <DealCardRestaurant v-bind="deal" />
@@ -302,11 +303,13 @@ const selectCategoryFilterQuery = computed(() => ({
       :title="title.LastSeenTitle"
       :show-arrows="true"
       :deals="filteredAllDeals"
+      @view-all="goToFilterPage"
     >
       <template #default="{ deal }">
         <DealCardRestaurant v-bind="deal" />
       </template>
     </DealCardCarouselDefault>
+
     <InformationBlockRestaurant
       v-if="restaurantInformation"
       v-bind="restaurantInformation"
@@ -316,6 +319,7 @@ const selectCategoryFilterQuery = computed(() => ({
       :title="title.CadeauTipsTitle"
       :show-arrows="true"
       :deals="filteredAllDeals"
+      @view-all="goToFilterPage"
     >
       <template #default="{ deal }">
         <DealCardRestaurant v-bind="deal" />
@@ -346,6 +350,7 @@ const selectCategoryFilterQuery = computed(() => ({
       :title="title.FavoritesList"
       :show-arrows="true"
       :deals="favoriteDealList"
+      @view-all="goToFilterPage"
     >
       <template #default="{ deal }">
         <DealCardRestaurant v-bind="deal" />

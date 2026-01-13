@@ -276,6 +276,7 @@ const selectCategoryFilterQuery = computed(() => ({
       :title="title.HorizontalRowNewDealsTitle"
       :show-arrows="true"
       :deals="filteredNewTodayDeals"
+      @view-all="goToFilterPage"
     />
 
     <SelectCategory
@@ -297,6 +298,7 @@ const selectCategoryFilterQuery = computed(() => ({
       :title="title.LastSeenTitle"
       :show-arrows="true"
       :deals="filteredAllDeals"
+      @view-all="goToFilterPage"
     />
 
     <InformationBlockHotel
@@ -309,6 +311,7 @@ const selectCategoryFilterQuery = computed(() => ({
       :title="title.CadeauTipsTitle"
       :show-arrows="true"
       :deals="filteredAllDeals"
+      @view-all="goToFilterPage"
     />
 
     <DealListSection
@@ -321,6 +324,7 @@ const selectCategoryFilterQuery = computed(() => ({
       :title="title.FavoritesList"
       :show-arrows="true"
       :deals="favoriteDealList"
+      @view-all="goToFilterPage"
     />
 
     <DealListSection

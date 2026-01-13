@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import type { CardProps } from '../../DealCard/types';
-import type { CarouselProps } from '../types';
+import type { CarouselProps, SelectCarouselEmits } from '../types';
 import { Navigation, Pagination } from 'swiper/modules';
 import type { SectionTitleProps } from '../../SectionTitle/types';
+import { DefaultButtonTypes, DefaultButtonSize, DefaultButton } from '@socialdeal/uikit3-shared';
+
 const props = withDefaults(
   defineProps<CarouselProps & { deals?: CardProps[]; title: SectionTitleProps }>(),
   {
     deals: () => [],
   },
 );
+
+const emit = defineEmits<SelectCarouselEmits>();
 
 const layout = { slides: { mobile: 1, tablet: 2, desktop: 4 }, gapPx: 16 };
 const config = computed(() => ({
@@ -29,7 +33,17 @@ const hasDeals = computed(() => props.deals.length > 0);
 </script>
 <template>
   <section class="flex flex-col gap-y-4">
-    <SectionTitle v-bind="props.title" />
+    <SectionTitle v-bind="props.title">
+      <template #action>
+        <DefaultButton
+          :text="props.title.moreDealsTextButton"
+          class="text-brand-500 underline underline-offset-4"
+          :type="DefaultButtonTypes.Text"
+          :size="DefaultButtonSize.Normal"
+          @on-click="emit('view-all')"
+        ></DefaultButton>
+      </template>
+    </SectionTitle>
     <div class="relative overflow-hidden">
       <Swiper
         v-if="hasDeals"
