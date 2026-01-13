@@ -44,6 +44,13 @@ const hasDeals = computed(() => props.deals.length > 0);
           </div>
         </SwiperSlide>
       </Swiper>
+      <div v-else>
+        <slot name="empty">
+          <p class="typography-body-l text-input-gray-700 text-center">
+            Er zijn geen deals beschikbaar.
+          </p>
+        </slot>
+      </div>
     </div>
   </section>
 </template>
